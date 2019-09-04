@@ -19,7 +19,13 @@ carDB.createCarTable()
 
 carDB.save(nissan)
 carDB.save(ford)
-print(carDB.getCarIds())
+
+for carId in carDB.getCarIds():
+    car = Car()
+    carDB.loadById(car,carId)
+    print(car)
+
+
 
 
 

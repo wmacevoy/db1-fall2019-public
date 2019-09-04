@@ -15,7 +15,7 @@ class Car:
         if value == None:
             self._id = None
         else:
-            self._id = int(id)
+            self._id = int(value)
     @property
     def name(self):
         return self._name
@@ -42,13 +42,13 @@ class Car:
     @memo.setter
     def memo(self,value):
         if 'id' in value:
-            self.id = memo['id']
+            self.id = value['id']
         if 'name' in value:
-            self.name = memo['name']
+            self.name = value['name']
         if 'running' in value:
-            self.running = memo['running']
+            self.running = value['running']
         if 'fuel' in value:
-            self.fuel = memo['fuel']
+            self.fuel = value['fuel']
 
     @property
     def fuel(self):

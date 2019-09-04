@@ -84,15 +84,12 @@ class CarDB:
         sql = "select (id) from car";
         cursor = self.cursor()
         cursor.execute(sql)
-        rows=cursor.fetchallrows()
-        ids=range(len(rows))
+        rows=cursor.fetchall()
+        ids=[None]*len(rows)
         for k in range(len(rows)):
             ids[k]=int(rows[k][0])
         return ids
 
-    def save(self,car):
-        memo=car.saveCarMemo()
-        self.saveCarMemo(memo)
     def loadById(self,car,id):
         memo=self.loadCarMemoById(id)
-        car.loadFromMemo(memo)
+        car.memo=memo
