@@ -45,6 +45,8 @@ class Car:
                 'fuel': self._fuel}
 
     def update(self,value):
+        if value == None: 
+            return
         if 'id' in value:
             self.id = value['id']
         if 'name' in value:
@@ -86,7 +88,7 @@ class Car:
 
     def __str__(self):
         return "car(id=" + str(self._id) + \
-            ",name=" + self._name + \
-            ",fuel=" + \
-            str(self._fuel) + \
-            ",running=" + str(self._running) + ")"
+            ",name=" + str(self._name) + \
+            ",fuel=" + str(self._fuel) + \
+            ",running=" + str(self._running) + \
+            ",memo=" + str(self.memo) + ")"
