@@ -55,6 +55,8 @@ class CarDB:
         return cursor.lastrowid
 
     def update(self,memo):
+        if memo == None:
+            return
         columns =[]
         parameters = []
         if 'name' in memo:
