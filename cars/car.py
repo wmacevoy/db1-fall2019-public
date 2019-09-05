@@ -1,11 +1,16 @@
 class Car:
+    DEFAULT_ID=None
+    DEFAULT_NAME="unknown"
+    DEFAULT_RUNNING=False
+    DEFAULT_FUEL=0.0
+
     MAX_RANGE = 1000.0 # Same for all cars
     def __init__(self,memo={}): # constructor
-        self._id = None
-        self._name = "unknown"
-        self._running = False # different for differnt cars
-        self._fuel = 0.0
-        self.memo = memo
+        self._id = Car.DEFAULT_ID
+        self._name = Car.DEFAULT_NAME
+        self._running = Car.DEFAULT_RUNNING
+        self._fuel = Car.DEFAULT_FUEL
+        self.update(memo)
 
     @property
     def id(self):
@@ -39,8 +44,7 @@ class Car:
                 'running': self._running,
                 'fuel': self._fuel}
 
-    @memo.setter
-    def memo(self,value):
+    def update(self,value):
         if 'id' in value:
             self.id = value['id']
         if 'name' in value:
