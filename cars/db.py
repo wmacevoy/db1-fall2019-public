@@ -7,6 +7,16 @@ class CarDB:
         self._dbFile = "CarDB.db"
     
     @property
+    def dbFile(self):
+        return self._dbFile
+
+    @dbFile.setter
+    def dbFile(self,value):
+        if self._connection != None:
+            raise ValueError('connection is already open.')
+        self._dbFile=value
+
+    @property
     def connection(self):
         if self._connection == None:
             self._connection = sqlite3.connect(self._dbFile)
@@ -33,54 +43,68 @@ class CarDB:
             memo = car.memo
             id=self.insert(memo)
             car.id = id
+
     def insert(self,memo):
-        sql = """
-        insert into car(name,running,fuel) values (?,?,?)
-        """
+        sql = "insert into car (name,running,fuel) values (?,?,?)"
         name = str(memo['name'])
         running = bool(int(memo['running']))
         fuel = float(memo['fuel'])
-        values = (name,running,fuel)
+        parameters = (name,running,fuel)
         cursor=self.cursor()
-        cursor.execute(sql,values)
+        cursor.execute(sql,parameters)
         return cursor.lastrowid
 
     def update(self,memo):
         columns =[]
-        values = []
+        parameters = []
         if 'name' in memo:
             columns.append('name=?')
-            values.append(str(memo['name']))
+            parameters.append(str(memo['name']))
         if 'running' in memo:
             columns.append('running=?')
-            values.append(bool(int(memo['running'])))
+            parameters.append(bool(int(memo['running'])))
         if 'fuel' in memo:
             columns.append('fuel=?')
-            values.append(float(memo['fuel']))
-        values.append(int(memo['id']))
+            parameters.append(float(memo['fuel']))
+        parameters.append(int(memo['id']))
         colstr = ",".join(columns)
-        sql = "update car (" + colstr + ") where (id=?)"
+        sql = "update car set " + colstr + "  where id=?"
         cursor=self.cursor()
-        cursor.execute(sql,values)
+        cursor.execute(sql,parameters)
 
-    def loadCarMemoById(self,id):
-        sql = """
-            select (id, name, fuel, running) from car where (id=?)
-            """
-        cursor=self.cursor
-        cursor.execute(sql,int(id))
+    def loadMemoById(self,id):
+        sql = "select id, name, fuel, running from car where id=?"
+        cursor=self.cursor()
+        parameters=(int(id),)
+        cursor.execute(sql,parameters)
         rows=cursor.fetchall()
         if len(rows)==0: 
-            return {}
+            return None
         else:
             row=rows[0]
             memo = {'id':int(row[0]),
                     'name':str(row[1]),
-                    'running':bool(int(row[2])),
-                    'fuel':float(row[3]) }
+                    'fuel':float(row[2]),
+                    'running':bool(int(row[3]))}
             return memo
 
-    def getCarIds(self):
+    def loadMemoByName(self,name):
+        sql = "select id, name, fuel, running from car where name=?"
+        cursor=self.cursor()
+        parameters=(str(name),)
+        cursor.execute(sql,parameters)
+        rows=cursor.fetchall()
+        if len(rows)==0: 
+            return None
+        else:
+            row=rows[0]
+            memo = {'id':int(row[0]),
+                    'name':str(row[1]),
+                    'fuel':float(row[2]),
+                    'running':bool(int(row[3])) }
+            return memo
+
+    def getIds(self):
         sql = "select (id) from car";
         cursor = self.cursor()
         cursor.execute(sql)
@@ -91,5 +115,9 @@ class CarDB:
         return ids
 
     def loadById(self,car,id):
-        memo=self.loadCarMemoById(id)
-        car.memo=memo
+        memo=self.loadMemoById(id)
+        car.update(memo)
+
+    def loadByName(self,car,name):
+        memo=self.loadMemoByName(name)
+        car.update(memo)
