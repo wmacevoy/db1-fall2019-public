@@ -33,31 +33,11 @@ class TestDB(TestCase):
         nissan = Car({'name':"rouge"})
         nissan.fuel = 0.75
         return nissan
-
-    def print(self,db):
-        cursor=db.cursor()
-        cursor.execute("select id,name,running,fuel from car")
-        rows=cursor.fetchall()
-        print("db rows: " + str(rows))
-        ford=self.getFord()
-        nissan=self.getNissan()
-        print("ford: " + str(ford))
-        print("nissan: " + str(nissan))
-        car1=Car()
-        db.loadById(car1,1)
-        print("car1: " + str(car1))
-        car2=Car()
-        db.loadById(car2,2)
-        print("car2: " + str(car2))
-
+        
     def getBaseTestDB(self):
         db=self.getEmptyTestDB()
         db.insert(self.getFord().memo)
         db.insert(self.getNissan().memo)
-        cursor=db.cursor()
-        cursor.execute("select * from car")
-        rows=cursor.fetchall()
-        print("base: " + str(rows))
         return db
 
     def testEmptyIds(self):
@@ -82,13 +62,10 @@ class TestDB(TestCase):
         self.assertEqual(nissan.id,2)
 
     def testLoadFord(self):
-        print("testLoadFord")
         db=self.getBaseTestDB()
-        self.print(db)
         unsavedFord = self.getFord()
         savedFord = Car()
         db.loadByName(savedFord,unsavedFord.name)
-        print("saved ford: " + str(savedFord))
         self.assertNotEqual(savedFord.id,None)
         unsavedFord.id=savedFord.id
         self.assertEqual(unsavedFord.memo,savedFord.memo)

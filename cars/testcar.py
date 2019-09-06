@@ -86,7 +86,6 @@ class TestCar(TestCase):
     def subtestMemo(self,memo):
         self.subtestInitMemo(memo)
         self.subtestUpdate(memo)
-        
     def testMemo(self):
         self.subtestMemo({'id':123})
         self.subtestMemo({'name':"not " + Car.DEFAULT_NAME})

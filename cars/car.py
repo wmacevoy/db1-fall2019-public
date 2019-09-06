@@ -44,17 +44,17 @@ class Car:
                 'running': self._running,
                 'fuel': self._fuel}
 
-    def update(self,value):
-        if value == None: 
+    def update(self,memo):
+        if memo == None: 
             return
-        if 'id' in value:
-            self.id = value['id']
-        if 'name' in value:
-            self.name = value['name']
-        if 'running' in value:
-            self.running = value['running']
-        if 'fuel' in value:
-            self.fuel = value['fuel']
+        if 'id' in memo:
+            self.id = memo['id']
+        if 'name' in memo:
+            self.name = memo['name']
+        if 'running' in memo:
+            self.running = memo['running']
+        if 'fuel' in memo:
+            self.fuel = memo['fuel']
 
     @property
     def fuel(self):
@@ -86,9 +86,5 @@ class Car:
             raise ValueError(self._name + ": insufficient fuel")
         self._fuel -= distance/Car.MAX_RANGE
 
-    def __str__(self):
-        return "car(id=" + str(self._id) + \
-            ",name=" + str(self._name) + \
-            ",fuel=" + str(self._fuel) + \
-            ",running=" + str(self._running) + \
-            ",memo=" + str(self.memo) + ")"
+    def __repr__(self):
+        return "Car(memo=" + repr(self.memo) + ")"
