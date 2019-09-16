@@ -49,6 +49,8 @@ class TestDB(TestCase):
         db=self.getBaseTestDB()
         ids=db.getIds()
         self.assertEqual(ids,[1,2])
+        db.connection.commit()
+        db.connection.close()
 
     def testSave(self):
         db=self.getEmptyTestDB()
@@ -70,6 +72,11 @@ class TestDB(TestCase):
         unsavedFord.id=savedFord.id
         self.assertEqual(unsavedFord.memo,savedFord.memo)
 
+    def testExample(self):
+        db=self.getBaseTestDB()
+        car = Car({'name': 'chevy', 'running': False})
+        db.save(car)
+        
     def testLoadNissan(self):
         db=self.getBaseTestDB()
         unsavedNissan = self.getNissan()
@@ -91,6 +98,11 @@ class TestDB(TestCase):
         car = Car()
         db.loadById(car,ford.id)
         self.assertEqual(car.memo,ford.memo)
+    def testDeleteFord(self):
+        db=self.getBaseTestDB()
+        ford = Car()
+        db.loadByName(ford,self.getFord().name)
+        db.delete(ford)
 
     def testUpdateNissan(self):
         db=self.getBaseTestDB()
