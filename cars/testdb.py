@@ -109,20 +109,21 @@ class TestDB(TestCase):
         ford.running = not ford.running
         ford.fuel = 0.75
         db.save(ford)
-        db.connection.commit()
-        db.connection.close()
-
-        
         car = Car()
         db.loadById(car,ford.id)
         self.assertEqual(car.memo,ford.memo)
-    def testDeleteFord(self):
-        db=self.getBaseTestDB()
-        ford = Car()
-        db.loadByName(ford,self.getFord().name)
-        db.delete(ford)
         db.connection.commit()
         db.connection.close()
+
+    def testDeleteFord(self):
+        db=self.getBaseTestDB() # ref db
+        ford = Car() # blank car (all defaults)
+        name = self.getFord().name # the name 'mustang'
+        db.loadByName(ford,name)
+        db.deleteById(ford.id)
+        db.connection.commit()
+        db.connection.close()
+        print("done")
 
     def testUpdateNissan(self):
         db=self.getBaseTestDB()

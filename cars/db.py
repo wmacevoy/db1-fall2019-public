@@ -44,8 +44,17 @@ class CarDB:
             id=self.insert(memo)
             car.id = id
 
-    def delete(self,car):
-        raise ValueError("not impl")
+    def deleteById(self,id):
+        sql = "delete from car where id=?"
+        parameters = (int(id),)
+        cursor = self.cursor()
+        cursor.execute(sql,parameters)
+
+    def deleteByName(self,name):
+        sql = "delete from car where name=?"
+        parameters = (str(name),)
+        cursor = self.cursor()
+        cursor.execute(sql,parameters)
     
     def insert(self,memo):
         sql = "insert into car (name,running,fuel) values (?,?,?)"

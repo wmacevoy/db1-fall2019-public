@@ -19,7 +19,7 @@ def main():
     carDB.save(nissan)
     carDB.save(ford)
 
-    for carId in carDB.getCarIds():
+    for carId in carDB.getIds():
         car = Car()
         carDB.loadById(car,carId)
         print(car)
