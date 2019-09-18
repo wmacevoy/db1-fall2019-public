@@ -25,6 +25,18 @@ class OwnerTable:
             id=self.insert(memo)
             owner.id = id
 
+    def deleteById(self,id):
+        sql = "delete from owner where id=?"
+        parameters = (int(id),)
+        cursor = self.cursor()
+        cursor.execute(sql,parameters)
+
+    def deleteByName(self,name):
+        sql = "delete from owner where name=?"
+        parameters = (str(name),)
+        cursor = self.cursor()
+        cursor.execute(sql,parameters)
+
     def insert(self,memo):
         sql = "insert into owner (name) values (?)"
         name = str(memo['name'])
