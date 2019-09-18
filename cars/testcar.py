@@ -43,11 +43,19 @@ class TestCar(TestCase):
         car.fuel = testFuel
         self.assertEqual(car.fuel,testFuel)
 
+    def testCarOwnerId(self):
+        testOwnerId = 9099
+        car = Car()
+        self.assertEqual(car.ownerId,Car.DEFAULT_OWNER_ID)
+        car.ownerId=testOwnerId
+        self.assertEqual(car.ownerId,testOwnerId)
+
     def defaultMemo(self):
         memo={'id':Car.DEFAULT_ID,
               'name':Car.DEFAULT_NAME,
               'running':Car.DEFAULT_RUNNING,
-              'fuel':Car.DEFAULT_FUEL}
+              'fuel':Car.DEFAULT_FUEL,
+              'ownerId':Car.DEFAULT_OWNER_ID}
         return memo
 
     def assertCarMemoEqual(self,car,memo):
@@ -64,6 +72,10 @@ class TestCar(TestCase):
         if 'fuel' in memo:
             self.assertEqual(car.fuel,memo['fuel'])
             self.assertEqual(carMemo['fuel'],memo['fuel'])
+        if 'ownerId' in memo:
+            self.assertEqual(car.ownerId,memo['ownerId'])
+            self.assertEqual(carMemo['ownerId'],memo['ownerId'])
+
 
     def testDefaultMemo(self):
         car = Car()
@@ -91,6 +103,7 @@ class TestCar(TestCase):
         self.subtestMemo({'name':"not " + Car.DEFAULT_NAME})
         self.subtestMemo({'running': not Car.DEFAULT_RUNNING})
         self.subtestMemo({'fuel':1.0-Car.DEFAULT_FUEL})
+        self.subtestMemo({'ownerId':9099})
 
 if __name__ == '__main__':
     main()

@@ -3,6 +3,7 @@ class Car:
     DEFAULT_NAME="unknown"
     DEFAULT_RUNNING=False
     DEFAULT_FUEL=0.0
+    DEFAULT_OWNER_ID=None
 
     MAX_RANGE = 1000.0 # Same for all cars
     def __init__(self,memo={}): # constructor
@@ -10,6 +11,7 @@ class Car:
         self._name = Car.DEFAULT_NAME
         self._running = Car.DEFAULT_RUNNING
         self._fuel = Car.DEFAULT_FUEL
+        self._ownerId = Car.DEFAULT_OWNER_ID
         self.update(memo)
 
     @property
@@ -38,11 +40,25 @@ class Car:
         self._running = bool(int(value))
 
     @property
+    def ownerId(self):
+        return self._ownerId
+
+    @ownerId.setter
+    def ownerId(self,value):
+        if value == None:
+            self._ownerId = None
+        else:
+            self._ownerId = int(value)
+
+        
+
+    @property
     def memo(self):
         return {'id': self._id,
                 'name': self._name,
                 'running': self._running,
-                'fuel': self._fuel}
+                'fuel': self._fuel,
+                'ownerId': self._ownerId}
 
     def update(self,memo):
         if memo == None: 
@@ -55,6 +71,8 @@ class Car:
             self.running = memo['running']
         if 'fuel' in memo:
             self.fuel = memo['fuel']
+        if 'ownerId' in memo:
+            self.ownerId = memo['ownerId']
 
     @property
     def fuel(self):
