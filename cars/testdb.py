@@ -3,32 +3,32 @@
 import os
 from unittest import TestCase, main
 
-from db import DB
+from db import Db
 from car import Car
 from owner import Owner
 
-class TestDB(TestCase):
+class TestDb(TestCase):
     SCRATCH_DB_FILE="scratch.db"
 
-    def testDefaultDB(self):
-        db = DB()
+    def testDefaultDb(self):
+        db = Db()
         self.assertNotEqual(db.cursor(),None)
         db.connection.close()
     
-    def testScratchDB(self):
-        db = DB(TestDB.SCRATCH_DB_FILE)
+    def testScratchDb(self):
+        db = Db(TestDb.SCRATCH_DB_FILE)
         self.assertNotEqual(db.cursor(),None)
         db.connection.close()
 
-    def getEmptyDB(self):
-        db = DB(TestDB.SCRATCH_DB_FILE)
+    def getEmptyDb(self):
+        db = Db(TestDb.SCRATCH_DB_FILE)
         if os.path.exists(db.dbFile):
             os.remove(db.dbFile)
         db.createTables()
         return db
 
-    def getScratchDB(self):
-        db = self.getEmptyScratchDB()
+    def getScratchDb(self):
+        db = self.getEmptyDb()
 
         alice = self.getAlice()
         bob = self.getBob()
@@ -75,7 +75,7 @@ class TestDB(TestCase):
         return bob
 
     def testScratchIds(self):
-        db=self.getScratchDB()
+        db=self.getScratchDb()
         ownerIds=db.owner.getIds()
         carIds=db.car.getIds()
         self.assertEqual(ownerIds,[1,2])

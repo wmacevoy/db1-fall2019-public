@@ -14,7 +14,8 @@ class CarTable:
                 id integer primary key,
                 name text not null,
                 running integer not null,
-                fuel real not null
+                fuel real not null,
+                ownerId integer
             )
         """
         self.cursor().execute(sql)
@@ -40,11 +41,12 @@ class CarTable:
         cursor.execute(sql,parameters)
     
     def insert(self,memo):
-        sql = "insert into car (name,running,fuel) values (?,?,?)"
+        sql = "insert into car (name,running,fuel,ownerId) values (?,?,?,?)"
         name = str(memo['name'])
         running = bool(int(memo['running']))
         fuel = float(memo['fuel'])
-        parameters = (name,running,fuel)
+        ownerId = self.intOrNone(memo['ownerId'])
+        parameters = (name,running,fuel,ownerId)
         cursor=self.cursor()
         cursor.execute(sql,parameters)
         return cursor.lastrowid
@@ -63,14 +65,23 @@ class CarTable:
         if 'fuel' in memo:
             columns.append('fuel=?')
             parameters.append(float(memo['fuel']))
+        if 'ownerId' in memo:
+            columns.append('ownerId=?')
+            parameters.append(self.intOrNone(memo['ownerId']))
         parameters.append(int(memo['id']))
         colstr = ",".join(columns)
         sql = "update car set " + colstr + "  where id=?"
         cursor=self.cursor()
         cursor.execute(sql,parameters)
 
+    def intOrNone(self,value):
+        if value == None:
+            return None
+        else:
+            return int(value)
+        
     def loadMemoById(self,id):
-        sql = "select id, name, fuel, running from car where id=?"
+        sql = "select id, name, fuel, running, ownerId from car where id=?"
         cursor=self.cursor()
         parameters=(int(id),)
         cursor.execute(sql,parameters)
@@ -82,11 +93,12 @@ class CarTable:
             memo = {'id':int(row[0]),
                     'name':str(row[1]),
                     'fuel':float(row[2]),
-                    'running':bool(int(row[3]))}
+                    'running':bool(int(row[3])),
+                    'ownerId':self.intOrNone(row[4])}
             return memo
 
     def loadMemoByName(self,name):
-        sql = "select id, name, fuel, running from car where name=?"
+        sql = "select id, name, fuel, running, ownerId from car where name=?"
         cursor=self.cursor()
         parameters=(str(name),)
         cursor.execute(sql,parameters)
@@ -98,7 +110,8 @@ class CarTable:
             memo = {'id':int(row[0]),
                     'name':str(row[1]),
                     'fuel':float(row[2]),
-                    'running':bool(int(row[3])) }
+                    'running':bool(int(row[3])),
+                    'ownerId':self.intOrNone(row[4]) }
             return memo
 
     def getIds(self):

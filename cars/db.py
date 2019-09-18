@@ -3,7 +3,7 @@ from sqlite3 import Error
 from cartable import CarTable
 from ownertable import OwnerTable
 
-class DB:
+class Db:
     DEFAULT_DB_FILE="fleet.db"
 
     def __init__(self, dbFile = DEFAULT_DB_FILE):
