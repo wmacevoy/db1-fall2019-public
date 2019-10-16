@@ -30,7 +30,7 @@ class TestMessage(TestCase):
     def testRecipientId(self):
         testRecipientId=1234
         message = Message()
-        self.assertEqual(message.recipentId,Message.DEFAULT_RECIPIENTID)
+        self.assertEqual(message.recipientid,Message.DEFAULT_RECIPIENTID)
         message.recipientid = testRecipientId
         self.assertEqual(message.recipientid,testRecipientId)
         message.recipientid = None
@@ -39,7 +39,7 @@ class TestMessage(TestCase):
     def testSenderId(self):
         testSenderId=1234
         message = Message()
-        self.assertEqual(message.recipentId,Message.DEFAULT_RECIPIENTID)
+        self.assertEqual(message.recipientid,Message.DEFAULT_RECIPIENTID)
         message.senderid = testSenderId
         self.assertEqual(message.senderid,testSenderId)
         message.senderid = None
@@ -47,7 +47,7 @@ class TestMessage(TestCase):
 
 
     def testMessageDialog(self):
-        testDialog = "not " + Message.DEFAULT_DIALOG
+        testDialog = "not " + str(Message.DEFAULT_DIALOG)
         message = Message()
         self.assertEqual(message.dialog,Message.DEFAULT_DIALOG)
         message.dialog = testDialog
@@ -142,7 +142,7 @@ class TestMessage(TestCase):
         self.subtestMemo({'id':123})
         self.subtestMemo({'senderid':123})
         self.subtestMemo({'recipientid':123})
-        self.subtestMemo({'dialog': not Message.DEFAULT_DIALOG})
+        self.subtestMemo({'dialog': 'not ' + str(Message.DEFAULT_DIALOG)})
         self.subtestMemo({'sent':'1970-01-02 08:30:47'})
         self.subtestMemo({'received':'2020-02-01 14:13:50'})
 

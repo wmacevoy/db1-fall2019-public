@@ -18,7 +18,7 @@ class ProfileTable:
                status integer not null
            )
        """
-       self.cursor().excecute(sql)
+       self.cursor().execute(sql)
  
    def save(self, profile):
        if profile.id != None:
@@ -32,22 +32,22 @@ class ProfileTable:
        sql = "delete from profile where id = ?"
        parameters = (int(id),)
        cursor = self.cursor()
-       cursor.excecute(sql,parameters)
+       cursor.execute(sql,parameters)
  
    def deleteByMane(self, user):
        sql = "delete from profile where user = ?"
        parameters = (str(user),)
        cursor = self.cursor()
-       cursor.excecute(sql,parameters)
+       cursor.execute(sql,parameters)
  
    def insert(self, memo):
        sql = "insert into profile (user, status) values (?,?)"
       # id = int(memo['id'])
        user = str(memo['user'])
        status = bool(int(memo['status']))
-       parameters = (id, user, status)
+       parameters = (user, status)
        cursor = self.cursor()
-       cursor.excecute(sql,parameters)
+       cursor.execute(sql,parameters)
        return cursor.lastrowid
  
    def update(self, memo):
@@ -67,7 +67,7 @@ class ProfileTable:
        colstr = ",".join(columns)
        sql = "update profile set" + colstr + "where id = ?"
        cursor = self.cursor()
-       cursor.excecute(sql,parameters)
+       cursor.execute(sql,parameters)
  
    def intOrNone(self,value):
        if value == None:
@@ -79,7 +79,7 @@ class ProfileTable:
        sql = "select id, user, status from profile where id = ?"
        cursor = self.cursor()
        parameters = (int(id),)
-       cursor.excecute(sql, parameters)
+       cursor.execute(sql, parameters)
        rows = cursor.fetchall()
        if len(rows)==0:
            return None
@@ -94,7 +94,7 @@ class ProfileTable:
            sql = "select id, user, status from profile where user = ?"
            cursor = self.cursor()
            parameters = (str(user),)
-           cursor.excecute(sql, parameters)
+           cursor.execute(sql, parameters)
            rows = cursor.fetchall()
            if len(rows) == 0:
                return None
@@ -108,7 +108,7 @@ class ProfileTable:
    def getIds(self):
            sql = "select (id) from profile"
            cursor = self.cursor()
-           cursor.excecute(sql)
+           cursor.execute(sql)
            rows = cursor.fetchall()
            ids = [None]*len(rows)
            for k in range(len(rows)):

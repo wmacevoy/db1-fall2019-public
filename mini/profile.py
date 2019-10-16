@@ -3,11 +3,10 @@ class Profile:
    DEFAULT_USER = "unkown"
    DEFAULT_STATUS = False
  
-   MAX_RANGE = 1.0
    def __init__(self, memo = {}):
-       self.id = Profile.DEFAULT_ID
-       self.user = Profile.DEFAULT_USER
-       self.status = Profile.DEFAULT_STATUS
+       self._id = Profile.DEFAULT_ID
+       self._user = Profile.DEFAULT_USER
+       self._status = Profile.DEFAULT_STATUS
        self.update(memo)
  
    @property
@@ -23,15 +22,15 @@ class Profile:
  
    @property
    def user(self):
-       return self.user
+       return self._user
  
    @user.setter
    def user(self, value):
-       self._user = srt(value)
+       self._user = str(value)
  
    @property
    def status(self):
-       return self.status
+       return self._status
  
    @status.setter
    def status(self, value):
@@ -60,6 +59,5 @@ class Profile:
        self._status = False
  
    def __repr__(self):
-       return "profile(memo =" +repr(self.memo) + ")"
+       return "profile(memo =" +repr(memo) + ")"
       
-

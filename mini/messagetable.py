@@ -1,7 +1,7 @@
 import sqlite3 , os
 from sqlite3 import Error
- 
-class Messagetable:
+
+class MessageTable:
     def __init__(self,db):
         self._db = db
     def cursor(self):
@@ -13,8 +13,8 @@ class Messagetable:
                 recipientid integer not null,
                 senderid integer not null,
                 dialog text not null,
-                sent integer not null,
-                received integer not null
+                sent text not null,
+                received text not null
             )
         """
         self.cursor().execute(sql)
@@ -26,8 +26,8 @@ class Messagetable:
             memo = message.memo
             id = self.insert(memo)
             message.id = id
- 
- 
+
+
     def update(self, memo):
         if memo == None:
             return
@@ -44,24 +44,28 @@ class Messagetable:
             parameters.append(str(memo['dialog']))
         if 'sent' in memo:
             columns.append('sent=?')
-            parameters.append(int(memo['sent']))
-        if 'recevied' in memo:
-            columns.append('recevied=?')
-            parameters.append(int(memo['recevied']))
+            parameters.append(str(memo['sent']))
+        if 'received' in memo:
+            columns.append('received=?')
+            parameters.append(str(memo['received']))
         parameters.append(int(memo['id']))
         colstr = ",".join(columns)
         sql = "update message set " + colstr + "  where id=?"
         cursor=self.cursor()
         cursor.execute(sql,parameters)
- 
+
     def insert(self,memo):
-        sql = "insert into message (recipientid) values(?)"
+        sql = "insert into message (recipientid, senderid, dialog, sent, received) values(?,?,?,?,?)"
         recipientid = int(memo['recipientid'])
-        parameters = (recipientid,)
+        senderid = int(memo['senderid'])
+        dialog = str(memo['dialog'])
+        sent = str(memo['sent'])
+        received = str(memo['received'])
+        parameters = (recipientid,senderid,dialog,sent,received)
         cursor = self.cursor()
         cursor.execute(sql,parameters)
         return cursor.lastrowid
- 
+
     def loadbyName(self, message, name):
        memo = self.loadMemoByName(name)
        message.update(memo)
@@ -98,7 +102,7 @@ class Messagetable:
             row = rows[0]
             memo = {'id': int(row[0])}
             return memo
- 
+
     def loadMemoByRecipientID(self,recipientid):
         sql = "select id, recipientid from message where recipientid=?"
         cursor=self.cursor()
@@ -112,12 +116,10 @@ class Messagetable:
             memo = {'id':int(row[0]),
                     'recipientid':int(row[1])}
             return memo
- 
+
     def loadbyID(self, message, id):
         memo = self.loadMemoByID(id)
         message.update(memo)
     def loadbyRecipientID(self,message,recipientid):
         memo=self.loadMemoByRecipientID(recipientid)
         message.update(memo)
- 
-

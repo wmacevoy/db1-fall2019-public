@@ -9,8 +9,8 @@ class TestProfile(TestCase):
     def testDefaultProfile(self):
         profile = Profile()
         self.assertEqual(profile.id,Profile.DEFAULT_ID)
-        self.assertEqual(profile.name,Profile.DEFAULT_USER)
-        self.assertEqual(profile.running,Profile.DEFAULT_STATUS)
+        self.assertEqual(profile.user,Profile.DEFAULT_USER)
+        self.assertEqual(profile.status,Profile.DEFAULT_STATUS)
 
     def testProfileId(self):
         testId=123
@@ -24,7 +24,7 @@ class TestProfile(TestCase):
     def testProfileUser(self):
         testUser = "not " + str(Profile.DEFAULT_USER)
         profile = Profile()
-        self.assertEqual(profile.name,Profile.DEFAULT_USER)
+        self.assertEqual(profile.user,Profile.DEFAULT_USER)
         profile.user = testUser
         self.assertEqual(profile.user,testUser)
 

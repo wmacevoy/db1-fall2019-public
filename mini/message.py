@@ -2,19 +2,18 @@ class Message:
     DEFAULT_ID = None
     DEFAULT_RECIPIENTID = None
     DEFAULT_SENDERID = None
-    DEFAULT_DIALOG = "Empty"
+    DEFAULT_DIALOG = None
     DEFAULT_SENT = None
     DEFAULT_RECEIVED = None
- 
     def __init__(self,memo={}):
-        self._id = DEFAULT_ID
-        self._recipientid = DEFAULT_RECIPIENTID
-        self._senderid = DEFAULT_SENDERID
-        self._dialog = DEFAULT_DIALOG
-        self._sent = DEFAULT_SENT
-        self._received = DEFAULT_RECEIVED
+        self._id = Message.DEFAULT_ID
+        self._recipientid = Message.DEFAULT_RECIPIENTID
+        self._senderid = Message.DEFAULT_SENDERID
+        self._dialog = Message.DEFAULT_DIALOG
+        self._sent = Message.DEFAULT_SENT
+        self._received = Message.DEFAULT_RECEIVED
         self.update(memo)
- 
+
     @property
     def id(self):
         return self._id
@@ -24,7 +23,7 @@ class Message:
             self._id = None
         else:
             self._id = int(value)
- 
+
     @property
     def recipientid(self):
         return self._recipientid
@@ -46,7 +45,7 @@ class Message:
     @property
     def dialog(self):
         return self._dialog
-    @message.setter
+    @dialog.setter
     def dialog(self,value):
         self._dialog = str(value)
     @property
@@ -54,24 +53,23 @@ class Message:
         return self._sent
     @sent.setter
     def sent(self,value):
-        if value == None:
-            self._sent = None
-        else:
-            self._sent = int(value)
+        self._sent = str(value)
     @property
     def received(self):
         return self._received
     @received.setter
     def received(self,value):
-        if value == None:
-            self._received = None
-        else:
-            self._received = int(value)
- 
+        self._received = str(value)
+
     @property
     def memo(self):
-        return {}
- 
+        return {'id': self._id,
+                'recipientid': self._recipientid,
+                'senderid': self._senderid,
+                'dialog': self._dialog,
+                'sent': self._sent,
+                'received': self._received}
+
     def update(self,memo):
         if memo == None:
             return
@@ -85,9 +83,8 @@ class Message:
             self.dialog = memo['dialog']
         if 'sent' in memo:
             self.sent = memo['sent']
-        if 'receved' in memo:
+        if 'received' in memo:
             self.received = memo['received']
     def __repr__(self):
         return "message (memo="+ repr(self.memo) + ")"
     
-

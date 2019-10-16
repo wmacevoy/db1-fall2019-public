@@ -40,12 +40,13 @@ class TestDb(TestCase):
 
         hi = self.getHi(sender=alice,recipient=bob)
         lol = self.getLol(sender=bob,recipient=cindy)
-        sup = self.getSup(sender=alice,recipent=cindy)
+        sup = self.getSup(sender=alice,recipient=cindy)
         wave = self.getWave(sender=bob,recipient=alice)
 
         db.message.save(hi)
         db.message.save(lol)
         db.message.save(sup)
+        db.message.save(wave)
         return db
 
     def getAlice(self):
@@ -82,7 +83,7 @@ class TestDb(TestCase):
                            'recieved': None})
         return message
 
-    def getLol(self,sender,recipient):
+    def getSup(self,sender,recipient):
         message = Message({'recipientid':self.idOrNone(recipient),
                            'senderid':self.idOrNone(sender),
                            'dialog':"Sup?",

@@ -1,5 +1,5 @@
 import sqlite3, os
-from sqilte3 import Error
+from sqlite3 import Error
 from profiletable import ProfileTable
 from messagetable import MessageTable
  
@@ -10,8 +10,8 @@ class Db:
        self._connection = None
        self._profile = ProfileTable(self)
        self._messgae = MessageTable(self)
-       self._DbFile = None
-       self._DbFile = dbFile
+       self._dbFile = None
+       self._dbFile = dbFile
  
    @property
    def profile(self):
