@@ -54,7 +54,7 @@ class TestProfileTable(TestCase):
         expect.id = 1
         
         result = Profile()
-        db.profile.loadByName(result, expect.name)
+        db.profile.loadByUser(result, expect.user)
         self.assertEqual(expect.memo,result.memo)
         db.connection.commit()
         db.connection.close()
@@ -65,7 +65,7 @@ class TestProfileTable(TestCase):
         expect = self.testDb.getBob()
         expect.id = 2
         result = Profile()
-        db.profile.loadByName(result, expect.name)
+        db.profile.loadByUser(result, expect.user)
         self.assertEqual(expect.memo,result.memo)
         db.connection.commit()
         db.connection.close()
@@ -75,7 +75,7 @@ class TestProfileTable(TestCase):
         expect = self.testDb.getCindy()
         expect.id = 3
         result = Profile()
-        db.profile.loadByName(result, expect.name)
+        db.profile.loadByUser(result, expect.user)
         self.assertEqual(expect.memo,result.memo)
         db.connection.commit()
         db.connection.close()
@@ -83,7 +83,7 @@ class TestProfileTable(TestCase):
     def testUpdateAlice(self):
         db=self.testDb.getScratchDb()
         alice = Profile()
-        db.profile.loadByName(alice,self.testDb.getAlice().name)
+        db.profile.loadByUser(alice,self.testDb.getAlice().user)
         alice.status = not alice.status
         db.profile.save(alice)
         profile = Profile()
@@ -95,8 +95,8 @@ class TestProfileTable(TestCase):
     def testDeleteAlice(self):
         db=self.testDb.getScratchDb()
         alice = Profile()
-        name = self.testDb.getAlice().name
-        db.profile.loadByName(alice,name)
+        name = self.testDb.getAlice().user
+        db.profile.loadByUser(alice,name)
         db.profile.deleteById(alice.id)
         db.connection.commit()
         db.connection.close()

@@ -53,8 +53,8 @@ class TestMessageTable(TestCase):
         db=self.testDb.getScratchDb()
         expect = self.testDb.getHi()
         expect.id = 1
-        expect.senderId = 1
-        expect.recipientId = 2
+        expect.senderid = 1
+        expect.recipientid = 2
         
         result = Message()
         db.message.loadById(result, expect.id)
@@ -67,8 +67,8 @@ class TestMessageTable(TestCase):
         db=self.testDb.getScratchDb()
         expect = self.testDb.getLol()
         expect.id = 2
-        expect.senderId = 2
-        expect.recipientId = 3
+        expect.senderid = 2
+        expect.recipientid = 3
 
         result = Message()
         db.message.loadById(result, expect.id)

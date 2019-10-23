@@ -31,7 +31,7 @@ class Db:
            raise ValueError('connection is already open.')
  
        if value.startswith(".") or value.startswith("/"):
-           self.dbFile = value
+           self._dbFile = value
  
        else:
            dir = os.path.dirname(os.path.realpath(__file__))

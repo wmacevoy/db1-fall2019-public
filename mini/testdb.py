@@ -75,7 +75,7 @@ class TestDb(TestCase):
                            'recieved': "2019-10-02 10:30:45"})
         return message
 
-    def getLol(self,sender,recipient):
+    def getLol(self,sender=None,recipient=None):
         message = Message({'recipientid':self.idOrNone(recipient),
                            'senderid':self.idOrNone(sender),
                            'dialog':"Lol! \u1F923",
@@ -83,7 +83,7 @@ class TestDb(TestCase):
                            'recieved': None})
         return message
 
-    def getSup(self,sender,recipient):
+    def getSup(self,sender=None,recipient=None):
         message = Message({'recipientid':self.idOrNone(recipient),
                            'senderid':self.idOrNone(sender),
                            'dialog':"Sup?",
@@ -91,7 +91,7 @@ class TestDb(TestCase):
                            'recieved': None})
         return message
         
-    def getWave(self,sender,recipient):
+    def getWave(self,sender=None,recipient=None):
         message = Message({'recipientid':self.idOrNone(recipient),
                            'senderid':self.idOrNone(sender),
                            'dialog':"\u1F44B",

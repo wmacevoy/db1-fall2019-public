@@ -14,7 +14,7 @@ class ProfileTable:
        sql = """
            create table if not exists profile(
                id integer primary key,
-               user test not null,
+               user text not null,
                status integer not null
            )
        """
@@ -64,8 +64,9 @@ class ProfileTable:
        if 'status' in memo:
            columns.append('status = ?')
            parameters.append(bool(int(memo['status'])))
+       parameters.append(int(memo['id']))
        colstr = ",".join(columns)
-       sql = "update profile set" + colstr + "where id = ?"
+       sql = "update profile set " + colstr + " where id = ?"
        cursor = self.cursor()
        cursor.execute(sql,parameters)
  

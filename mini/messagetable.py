@@ -14,7 +14,7 @@ class MessageTable:
                 senderid integer not null,
                 dialog text not null,
                 sent text not null,
-                received text not null
+                recieved text not null
             )
         """
         self.cursor().execute(sql)
@@ -34,45 +34,37 @@ class MessageTable:
         columns =[]
         parameters = []
         if 'recipientid' in memo:
-            columns.append('recipientid=?')
+            columns.append('recipientid = ?')
             parameters.append(int(memo['recipientid']))
         if 'senderid' in memo:
-            columns.append('senderid=?')
+            columns.append('senderid = ?')
             parameters.append(int(memo['senderid']))
         if 'dialog' in memo:
-            columns.append('dialog=?')
+            columns.append('dialog = ?')
             parameters.append(str(memo['dialog']))
         if 'sent' in memo:
-            columns.append('sent=?')
+            columns.append('sent = ?')
             parameters.append(str(memo['sent']))
-        if 'received' in memo:
-            columns.append('received=?')
-            parameters.append(str(memo['received']))
+        if 'recieved' in memo:
+            columns.append('recieved = ?')
+            parameters.append(str(memo['recieved']))
         parameters.append(int(memo['id']))
         colstr = ",".join(columns)
-        sql = "update message set " + colstr + "  where id=?"
+        sql = "update message set " + colstr + "  where id = ?"
         cursor=self.cursor()
         cursor.execute(sql,parameters)
 
     def insert(self,memo):
-        sql = "insert into message (recipientid, senderid, dialog, sent, received) values(?,?,?,?,?)"
+        sql = "insert into message (recipientid, senderid, dialog, sent, recieved) values(?,?,?,?,?)"
         recipientid = int(memo['recipientid'])
         senderid = int(memo['senderid'])
         dialog = str(memo['dialog'])
         sent = str(memo['sent'])
-        received = str(memo['received'])
-        parameters = (recipientid,senderid,dialog,sent,received)
+        recieved = str(memo['received'])
+        parameters = (recipientid,senderid,dialog,sent,recieved)
         cursor = self.cursor()
         cursor.execute(sql,parameters)
         return cursor.lastrowid
-
-    def loadbyName(self, message, name):
-       memo = self.loadMemoByName(name)
-       message.update(memo)
- 
-    def loadbyStatus(self, message, status):
-       memo = self.loadMemoByStatus(status)
-       message.update(memo)
  
     def getIds(self):
        sql = "select (id) from message"
@@ -90,8 +82,8 @@ class MessageTable:
        cursor = self.cursor()
        cursor.execute(sql, parameters)
  
-    def loadMemoByID(self,id):
-        sql = "select id from message where id=?"
+    def loadMemoById(self, id):
+        sql = "select id,recipientid,senderid,dialog,recieved,sent from message where id=?"
         cursor = self.cursor()
         parameters = (int(id),)
         cursor.execute(sql,parameters)
@@ -100,26 +92,35 @@ class MessageTable:
             return None
         else:
             row = rows[0]
-            memo = {'id': int(row[0])}
+            memo = {'id': int(row[0]),
+                    'recipientid': int(row[1]),
+                    'senderid': int(row[2]),
+                    'dialog': str(row[3]),
+                    'recieved': str(row[4]),
+                    'sent': str(row[5])}
             return memo
 
-    def loadMemoByRecipientID(self,recipientid):
+    def loadMemoByRecipientId(self,recipientid):
         sql = "select id, recipientid from message where recipientid=?"
         cursor=self.cursor()
-        parameters=(int(recipientid),)
+        parameters = (int(recipientid),)
         cursor.execute(sql,parameters)
         rows=cursor.fetchall()
         if len(rows)==0: 
             return None
         else:
             row=rows[0]
-            memo = {'id':int(row[0]),
-                    'recipientid':int(row[1])}
+            memo = {'id': int(row[0]),
+                    'recipientid': int(row[1]),
+                    'senderid': int(row[2]),
+                    'dialog': str(row[3]),
+                    'recieved': str(row[4]),
+                    'sent': str(row[5])}
             return memo
 
-    def loadbyID(self, message, id):
-        memo = self.loadMemoByID(id)
+    def loadById(self, message, id):
+        memo = self.loadMemoById(id)
         message.update(memo)
-    def loadbyRecipientID(self,message,recipientid):
-        memo=self.loadMemoByRecipientID(recipientid)
+    def loadbyRecipientId(self,message,recipientid):
+        memo=self.loadMemoByRecipientId(recipientid)
         message.update(memo)
