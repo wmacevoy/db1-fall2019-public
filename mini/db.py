@@ -4,7 +4,7 @@ from profiletable import ProfileTable
 from messagetable import MessageTable
  
 class Db:
-   DEFAULT_DB_FILE = "fleet.db"
+   DEFAULT_DB_FILE = "mini.db"
  
    def __init__(self, dbFile = DEFAULT_DB_FILE):
        self._connection = None
@@ -40,7 +40,8 @@ class Db:
    @property
    def connection(self):
        if self._connection == None:
-           self._connection = sqlite3.connect(self._dbFile)
+            self._connection = sqlite3.connect(self._dbFile)
+            self.createTables()
        return self._connection
  
    def cursor(self):

@@ -34,7 +34,7 @@ class ProfileTable:
        cursor = self.cursor()
        cursor.execute(sql,parameters)
  
-   def deleteByMane(self, user):
+   def deleteByName(self, user):
        sql = "delete from profile where user = ?"
        parameters = (str(user),)
        cursor = self.cursor()
@@ -91,7 +91,7 @@ class ProfileTable:
                    'status':bool(int(row[2]))}
            return memo
  
-   def leadMemoByUser(self, user):
+   def loadMemoByUser(self, user):
            sql = "select id, user, status from profile where user = ?"
            cursor = self.cursor()
            parameters = (str(user),)
@@ -121,7 +121,7 @@ class ProfileTable:
            profile.update(memo)
  
    def loadByUser(self, profile, user):
-           memo = self.leadMemoByUser(user)
+           memo = self.loadMemoByUser(user)
            profile.update(memo)
  
 
