@@ -4,7 +4,7 @@ from profile import Profile
 from message import Message
 from db import Db
 
-class Inbox:
+class Outbox:
     def __init__(self,user):
         self.db = Db()
         self.profile=self.getOrCreateProfileByUser(user)
@@ -18,15 +18,15 @@ class Inbox:
         return profile
 
     def show(self):
-        print("inbox for " + self.profile.user)
+        print("outbox for " + self.profile.user)
         print("TODO")
 
-def inbox(user):
-    inbox = Inbox(user)
+def outbox(user):
+    inbox = Outbox(user)
     inbox.show()
 
 def testInbox():
-    inbox("bob")
+    outbox("alice")
 
 def main():
     args = sys.argv
@@ -34,7 +34,7 @@ def main():
     if len(args) == 0:
         testInbox()
     else:
-        inbox(*args)
+        outbox(*args)
 
 if __name__ == '__main__':
     main()

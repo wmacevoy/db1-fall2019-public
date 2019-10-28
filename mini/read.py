@@ -4,10 +4,11 @@ from profile import Profile
 from message import Message
 from db import Db
 
-class Inbox:
-    def __init__(self,user):
+class Reader:
+    def __init__(self,user,messageid):
         self.db = Db()
         self.profile=self.getOrCreateProfileByUser(user)
+        self.messageid=messageid
 
     def getOrCreateProfileByUser(self,user):
         profile=Profile()
@@ -17,24 +18,23 @@ class Inbox:
         self.db.profile.save(profile)
         return profile
 
-    def show(self):
-        print("inbox for " + self.profile.user)
-        print("TODO")
+    def read(self):
+        print("read message")
 
-def inbox(user):
-    inbox = Inbox(user)
-    inbox.show()
+def read(user,messageid):
+    reader = Reader(user,messageid)
+    reader.read()
 
-def testInbox():
-    inbox("bob")
+def testRead():
+    read("bob",1)
 
 def main():
     args = sys.argv
     args.pop(0)
     if len(args) == 0:
-        testInbox()
+        testRead()
     else:
-        inbox(*args)
+        read(*args)
 
 if __name__ == '__main__':
     main()
