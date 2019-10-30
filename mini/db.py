@@ -2,9 +2,9 @@ import sqlite3, os
 from sqlite3 import Error
 from profiletable import ProfileTable
 from messagetable import MessageTable
- 
+from os import path
 class Db:
-   DEFAULT_DB_FILE = "mini.db"
+   DEFAULT_DB_FILE = str(os.path.expanduser("~/mini.db"))
  
    def __init__(self, dbFile = DEFAULT_DB_FILE):
        self._connection = None
