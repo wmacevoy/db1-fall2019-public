@@ -18,7 +18,7 @@ class MessageTable:
             )
         """
         self.cursor().execute(sql)
-    
+
     def save(self,message):
         if message.id != None:
             self.update(message.memo)
@@ -65,23 +65,45 @@ class MessageTable:
         cursor = self.cursor()
         cursor.execute(sql,parameters)
         return cursor.lastrowid
- 
+
     def getIds(self):
-       sql = "select (id) from message"
-       cursor = self.cursor()
-       cursor.execute(sql)
-       rows = cursor.fetchall()
-       ids = [None]*len(rows)
-       for k in range(len(rows)):
-           ids[k] = int(rows[k][0])
-       return ids
- 
+        sql = "select (id) from message"
+        cursor = self.cursor()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        ids = [None]*len(rows)
+        for k in range(len(rows)):
+            ids[k] = int(rows[k][0])
+        return ids
+
+    def getIdsBySenderid(self,senderid):
+        sql = "select (id) from message where senderid=?"
+        cursor = self.cursor()
+        parameters=(int(senderid),)
+        cursor.execute(sql,parameters)
+        rows = cursor.fetchall()
+        ids = [None]*len(rows)
+        for k in range(len(rows)):
+            ids[k] = int(rows[k][0])
+        return ids
+
+    def getIdsByRecipientid(self,recipientid):
+        sql = "select (id) from message where recipientid=?"
+        cursor = self.cursor()
+        parameters=(int(recipientid),)
+        cursor.execute(sql,parameters)
+        rows = cursor.fetchall()
+        ids = [None]*len(rows)
+        for k in range(len(rows)):
+            ids[k] = int(rows[k][0])
+        return ids
+
     def deletebyId(self, id):
        sql = "delete from owner where id = ?"
        parameters = (int(id))
        cursor = self.cursor()
        cursor.execute(sql, parameters)
- 
+
     def loadMemoById(self, id):
         sql = "select id,recipientid,senderid,dialog,recieved,sent from message where id=?"
         cursor = self.cursor()
@@ -106,7 +128,7 @@ class MessageTable:
         parameters = (int(recipientid),)
         cursor.execute(sql,parameters)
         rows=cursor.fetchall()
-        if len(rows)==0: 
+        if len(rows)==0:
             return None
         else:
             row=rows[0]

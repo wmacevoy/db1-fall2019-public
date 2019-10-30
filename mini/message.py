@@ -33,6 +33,7 @@ class Message:
             self._recipientid = None
         else:
             self._recipientid = int(value)
+
     @property
     def senderid(self):
         return self._senderid
@@ -87,4 +88,3 @@ class Message:
             self.received = memo['received']
     def __repr__(self):
         return "message (memo="+ repr(self.memo) + ")"
-    

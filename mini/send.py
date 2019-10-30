@@ -7,14 +7,15 @@ from db import Db
 class Sender:
     def __init__(self,senderUser, recipientUser, dialog):
         self.db = Db()
-        self.sender=self.getOrCreateProfileByUser(senderUser)
-        self.recipient=self.getOrCreateProfileByUser(recipientUser)
+        self.sender=self.getOrCreateProfileByUser(user=senderUser,status=1)
+        self.recipient=self.getOrCreateProfileByUser(user=recipientUser,status=None)
         self.dialog = dialog
 
-    def getOrCreateProfileByUser(self,user):
+    def getOrCreateProfileByUser(self,user,status):
         profile=Profile()
         self.db.profile.loadByUser(profile,user)
-        profile.status = 1
+        if status != None:
+            profile.status = status
         profile.user = user
         self.db.profile.save(profile)
         return profile
