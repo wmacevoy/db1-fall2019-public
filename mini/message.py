@@ -1,10 +1,30 @@
 class Message:
+    def intOrNone(self, value):
+        if value != None:
+            return int(value)
+        else:
+            return None
+
+    def floatOrNone(self, value):
+        if value != None:
+            return float(value)
+        else:
+            return None
+
+    def strOrNone(self, value):
+        if value != None:
+            return str(value)
+        else:
+            return None
+
+
     DEFAULT_ID = None
     DEFAULT_RECIPIENTID = None
     DEFAULT_SENDERID = None
     DEFAULT_DIALOG = None
     DEFAULT_SENT = None
     DEFAULT_RECEIVED = None
+
     def __init__(self,memo={}):
         self._id = Message.DEFAULT_ID
         self._recipientid = Message.DEFAULT_RECIPIENTID
@@ -19,48 +39,42 @@ class Message:
         return self._id
     @id.setter
     def id(self,value):
-        if value == None:
-            self._id = None
-        else:
-            self._id = int(value)
+        self._id = self.intOrNone(value)
 
     @property
     def recipientid(self):
         return self._recipientid
     @recipientid.setter
     def recipientid(self,value):
-        if value == None:
-            self._recipientid = None
-        else:
-            self._recipientid = int(value)
+        self._recipientid = self.intOrNone(value)
 
     @property
     def senderid(self):
         return self._senderid
     @senderid.setter
     def senderid(self,value):
-        if value == None:
-            self._senderid = None
-        else:
-            self._senderid = int(value)  
+        self._senderid = self.intOrNone(value)
+
     @property
     def dialog(self):
         return self._dialog
     @dialog.setter
     def dialog(self,value):
         self._dialog = str(value)
+
     @property
     def sent(self):
         return self._sent
     @sent.setter
     def sent(self,value):
-        self._sent = str(value)
+        self._sent = self.strOrNone(value)
+
     @property
     def received(self):
         return self._received
     @received.setter
     def received(self,value):
-        self._received = str(value)
+        self._received = self.strOrNone(value)
 
     @property
     def memo(self):

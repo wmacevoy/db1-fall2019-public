@@ -1,4 +1,4 @@
-import sys,datetime
+import sys,dbdatetime
 
 from profile import Profile
 from message import Message
@@ -25,7 +25,7 @@ class Sender:
         message.senderid = self.sender.id
         message.recipientid = self.recipient.id
         message.dialog = self.dialog
-        message.sent = datetime.datetime.utcnow()
+        message.sent = dbdatetime.datetime.utcnow()
         message.received = None
         self.db.message.save(message)
         self.db.connection.commit()
@@ -36,7 +36,7 @@ def send(senderUser, recipientUser, dialog):
     sender.send()
 
 def testSend():
-    send("alice","bob","testSend(" + str(datetime.datetime.utcnow()) + ")")
+    send("alice","bob","testSend(" + str(dbdatetime.datetime.utcnow()) + ")")
 
 def main():
     args = sys.argv

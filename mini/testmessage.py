@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 from unittest import TestCase, main
-from datetime import datetime
-
 from message import Message
+import datetime
 import calendar
 
 
