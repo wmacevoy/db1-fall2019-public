@@ -118,5 +118,4 @@ class TestCarTable(TestCase):
         db.connection.close()
 
 
-if __name__ == '__main__':
-    main()
+v
