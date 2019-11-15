@@ -3,6 +3,7 @@ import sys,dbdatetime
 from profile import Profile
 from message import Message
 from db import Db
+import datetime
 
 class Sender:
     def __init__(self,senderUser, recipientUser, dialog):
@@ -25,7 +26,7 @@ class Sender:
         message.senderid = self.sender.id
         message.recipientid = self.recipient.id
         message.dialog = self.dialog
-        message.sent = dbdatetime.datetime.utcnow()
+        message.sent = datetime.datetime.utcnow()
         message.received = None
         self.db.message.save(message)
         self.db.connection.commit()
@@ -36,7 +37,7 @@ def send(senderUser, recipientUser, dialog):
     sender.send()
 
 def testSend():
-    send("alice","bob","testSend(" + str(dbdatetime.datetime.utcnow()) + ")")
+    send("alice","bob","testSend(" + str(datetime.datetime.utcnow()) + ")")
 
 def main():
     args = sys.argv
