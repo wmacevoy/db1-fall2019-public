@@ -5,18 +5,11 @@ class Message:
         else:
             return None
 
-    def floatOrNone(self, value):
-        if value != None:
-            return float(value)
-        else:
-            return None
-
     def strOrNone(self, value):
         if value != None:
             return str(value)
         else:
             return None
-
 
     DEFAULT_ID = None
     DEFAULT_RECIPIENTID = None

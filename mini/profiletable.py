@@ -69,13 +69,7 @@ class ProfileTable:
        sql = "update profile set " + colstr + " where id = ?"
        cursor = self.cursor()
        cursor.execute(sql,parameters)
- 
-   def intOrNone(self,value):
-       if value == None:
-           return None
-       else:
-           return int(value)
- 
+
    def loadMemoById(self, id):
        sql = "select id, user, status from profile where id = ?"
        cursor = self.cursor()

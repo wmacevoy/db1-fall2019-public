@@ -8,6 +8,7 @@ from os import path
 class Db:
     DEFAULT_DB_FILE = str(os.path.expanduser("~/mini.db"))
 
+
     def __init__(self, dbFile=DEFAULT_DB_FILE):
         self._connection = None
         self._profile = ProfileTable(self)

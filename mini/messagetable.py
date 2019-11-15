@@ -13,8 +13,8 @@ class MessageTable:
                 recipientid integer not null,
                 senderid integer not null,
                 dialog text not null,
-                sent real,
-                received real
+                sent text,
+                received text
             )
         """
         self.cursor().execute(sql)
@@ -44,10 +44,10 @@ class MessageTable:
             parameters.append(str(memo['dialog']))
         if 'sent' in memo:
             columns.append('sent = ?')
-            parameters.append(self.floatOrNone(memo['sent']))
+            parameters.append(self.strOrNone(memo['sent']))
         if 'received' in memo:
             columns.append('received = ?')
-            parameters.append(self.floatOrNone(memo['received']))
+            parameters.append(self.strOrNone(memo['received']))
         parameters.append(int(memo['id']))
         colstr = ",".join(columns)
         sql = "update message set " + colstr + "  where id = ?"
@@ -59,8 +59,8 @@ class MessageTable:
         recipientid = int(memo['recipientid'])
         senderid = int(memo['senderid'])
         dialog = str(memo['dialog'])
-        sent = str(memo['sent'])
-        recieved = str(memo['received'])
+        sent = self.strOrNone(memo['sent'])
+        recieved = self.strOrNone(memo['received'])
         parameters = (recipientid,senderid,dialog,sent,recieved)
         cursor = self.cursor()
         cursor.execute(sql,parameters)
@@ -104,11 +104,11 @@ class MessageTable:
        cursor = self.cursor()
        cursor.execute(sql, parameters)
 
-    def floatOrNone(self, value):
+    def strOrNone(self, value):
         if value == None:
             return None
         else:
-            return float(value)
+            return str(value)
 
     def loadMemoById(self, id):
         sql = "select id,recipientid,senderid,dialog,received,sent from message where id=?"
@@ -124,8 +124,8 @@ class MessageTable:
                     'recipientid': int(row[1]),
                     'senderid': int(row[2]),
                     'dialog': str(row[3]),
-                    'received': self.floatOrNone(row[4]),
-                    'sent': self.floatOrNone(row[5])}
+                    'received': self.strOrNone(row[4]),
+                    'sent': self.strOrNone(row[5])}
             return memo
 
     def loadById(self, message, id):
