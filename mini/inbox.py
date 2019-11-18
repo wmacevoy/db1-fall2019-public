@@ -8,14 +8,13 @@ class Inbox:
     def __init__(self,user):
         self.db = Db()
         self.user = user
-        self.profile=None
-        self.messages=[]
-        self.profiles={}
+        self.profile=self.getOrCreateProfileByUser(user,None)
 
-    def getOrCreateProfileByUser(self,user):
+    def getOrCreateProfileByUser(self,user,status):
         profile=Profile()
         self.db.profile.loadByUser(profile,user)
-        profile.status = 1
+        if status != None:
+            profile.status = status
         profile.user = user
         self.db.profile.save(profile)
         return profile
@@ -27,24 +26,8 @@ class Inbox:
             self.profiles[id]=profile
         return self.profiles[id]
 
-    def read(self):
-        self.profile = self.getOrCreateProfileByUser(self.user)
-        ids=self.db.message.getIdsByRecipientid(self.user.id)
-        for id in ids:
-            message=Message()
-            self.db.message.loadById(message,id)
-            self.messages.push(message)
 
     def show(self):
-            display=(received and message.received != None) or (unreceived and message.received == None)
-            if (display):
-                sender=Profile()
-                self.db.profile.loadById(sender,message.senderid)
-                print("from: " + sender.user)
-                print("sent: " + message.sent)
-                print("dialog: " + message.dialog)
-
-    def show(self,received=True,unreceived=True):
         print("inbox for " + self.profile.user)
         for id in ids:
             message=Message()
