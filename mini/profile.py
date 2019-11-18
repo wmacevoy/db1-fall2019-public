@@ -59,5 +59,5 @@ class Profile:
        self._status = False
  
    def __repr__(self):
-       return "profile(memo =" +repr(memo) + ")"
+       return "profile(memo =" +repr(self.memo) + ")"
       
