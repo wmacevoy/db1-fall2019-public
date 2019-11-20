@@ -29,16 +29,19 @@ class Inbox:
 
     def show(self):
         print("inbox for " + self.profile.user)
-        for id in ids:
-            message=Message()
-            self.db.message.loadById(message,id)
-            display=(received and message.received != None) or (unreceived and message.received == None)
-            if (display):
-                sender=Profile()
-                self.db.profile.loadById(sender,message.senderid)
-                print("from: " + sender.user)
-                print("sent: " + message.sent)
-                print("dialog: " + message.dialog)
+        print("profile=" + str(self.profile))
+        sql = """select recipient.user,message.sent,message.received
+from message join profile recipient on recipient.id = message.recipientid
+where recipientid = ?"""
+        parameters=(self.profile.id,)
+        cursor=self.db.cursor()
+        cursor.execute(sql,parameters)
+        rows = cursor.fetchall()
+        info = [None]*len(rows)
+        for k in range(len(rows)):
+            info[k] = {'from': rows[k][0], 'sent':rows[k][1], 'read':rows[k][2]}
+        print(repr(info))
+        # "from" / when sent / read/unread
 
 def inbox(user):
     inbox = Inbox(user)
