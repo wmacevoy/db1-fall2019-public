@@ -28,8 +28,6 @@ class Inbox:
 
 
     def show(self):
-        print("inbox for " + self.profile.user)
-        print("profile=" + str(self.profile))
         sql = """select sender.user,message.sent,message.received,message.id
 from message join profile sender on sender.id = message.senderid
 where recipientid = ?"""
@@ -37,11 +35,18 @@ where recipientid = ?"""
         cursor=self.db.cursor()
         cursor.execute(sql,parameters)
         rows = cursor.fetchall()
-        print(rows)
         info = [None]*len(rows)
         for k in range(len(rows)):
             info[k] = {'from': rows[k][0], 'sent':rows[k][1], 'read':rows[k][2], 'messageid': rows[k][3]}
-        print(repr(info))
+        for message in info:
+            msgfrom=message['from']
+            msgsent=message['sent']
+            msgread=message['read']
+            msgid=message['messageid']
+            if msgread != None:
+                print(f"{msgid}: from {msgfrom} sent on {msgsent} read on {msgread}")
+            else:
+                print(f"{msgid}: from {msgfrom} sent on {msgsent} unread")
         # "from" / when sent / read/unread
 
 def inbox(user):
